@@ -22,7 +22,7 @@ class PostRepository implements RepositoryInterface
     public function findAll()
     {
         $criteria = [
-            'numberpost' => -1,
+            'numberposts' => -1,
             'post_type'  => static::POST_TYPE,
         ];
 
