@@ -2,6 +2,8 @@
 
 namespace WonderWp\Component\Repository;
 
+use function WonderWp\Functions\array_merge_recursive_distinct;
+
 class PostRepository implements RepositoryInterface
 {
     const POST_TYPE = 'post';
@@ -23,7 +25,7 @@ class PostRepository implements RepositoryInterface
     {
         $criteria = [
             'numberposts' => -1,
-            'post_type'  => static::POST_TYPE,
+            'post_type'   => static::POST_TYPE,
         ];
 
         return get_posts($criteria);
@@ -94,5 +96,43 @@ class PostRepository implements RepositoryInterface
     public function getTermsForTaxonomy(array $args = [])
     {
         return get_terms($args);
+    }
+
+    /**
+     * Find related random post (by same category)
+     *
+     * @param \WP_Post $currentPost
+     * @param string   $taxonomyName
+     * @param array    $args
+     *
+     * @return \WP_Post[]
+     */
+    public function findRandomRelated(\WP_Post $currentPost, $taxonomyName, $args = [])
+    {
+        $defaultCriteria = [
+            "post_type"   => static::POST_TYPE,
+            "post_status" => "publish",
+            'exclude'     => [$currentPost->ID],
+            'orderby'     => 'rand',
+            'order'       => 'ASC',
+        ];
+
+        $categories = get_the_terms($currentPost, 'pml_cat');
+        if (is_array($categories) && count($categories) > 0) {
+            $categoryQuery = [
+                'taxonomy'         => PMLManager::PML_CUSTOM_TAXO_CATEGORY,
+                'field'            => 'id',
+                'include_children' => false,
+            ];
+
+            foreach ($categories as $category) {
+                $categoryQuery['terms'][] = $category->term_id;
+            }
+
+            $defaultCriteria['tax_query'][] = $categoryQuery;
+        }
+        $criteria = array_merge_recursive_distinct($defaultCriteria, $args);
+
+        return get_posts($criteria);
     }
 }
