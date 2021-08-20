@@ -1,31 +1,31 @@
 {
-    "name": "wonderwp/repository",
-    "type": "library",
-    "description": "WonderWp Repository Component",
-    "keywords": ["service"],
-    "homepage": "https://wonderwp.com",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Jeremy Desvaux",
-            "homepage": "http://jdmweb.com"
-        },
-        {
-            "name": "WonderWp Community",
-            "homepage": "https://wonderwp.com/contributors"
-        }
-    ],
-    "require": {
-        "php": "~5.6|~7"
+  "name": "wonderwp/repository",
+  "description": "WonderWp Repository Component",
+  "type": "library",
+  "keywords": ["repository","WonderWp","WordPress"],
+  "homepage": "https://github.com/wonderwp/Repository",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Jeremy Desvaux",
+      "homepage": "https://jdmweb.com"
     },
-    "require-dev": {
-        "johnpbloch/wordpress": "^4.7"
-    },
-    "autoload": {
-        "psr-4": {"WonderWp\\Component\\Repository\\": "src"},
-        "exclude-from-classmap": [
-            "/tests/"
-        ]
-    },
-    "minimum-stability": "dev"
+    {
+      "name": "WonderWp Community",
+      "homepage": "http://wonderwp.net/Contribution/Contributors.html"
+    }
+  ],
+  "require": {
+    "php": ">=7.1"
+  },
+  "require-dev": {
+    "johnpbloch/wordpress": "^4.7"
+  },
+  "autoload": {
+    "psr-4": {"WonderWp\\Component\\Repository\\": "src"},
+    "exclude-from-classmap": [
+      "/tests/"
+    ]
+  },
+  "minimum-stability": "dev"
 }
