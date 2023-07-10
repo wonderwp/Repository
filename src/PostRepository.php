@@ -52,11 +52,14 @@ class PostRepository implements RepositoryInterface
         }
 
         if (!empty($orderBy)) {
-            $criteria['orderby'] = array_keys($orderBy);
-            $criteria['order']   = array_values($orderBy);
             if (count($orderBy) == 1) {
-                $criteria['orderby'] = reset($criteria['orderby']);
-                $criteria['order']   = reset($criteria['order']);
+                //There's just one criteria, split into orderby and order
+                $orderbyKeys = array_keys($orderBy);
+                $orderKeys = array_values($orderBy);
+                $criteria['orderby'] = reset($orderbyKeys);
+                $criteria['order'] = reset($orderKeys);
+            } else {
+                $criteria['orderby'] = $orderBy;
             }
         }
 
