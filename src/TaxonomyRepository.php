@@ -12,10 +12,8 @@ class TaxonomyRepository implements RepositoryInterface
     }
 
     public function findAll()
-    {
-        $criteria['taxonomy'] = static::TAXONOMY_NAME;
-
-        return get_terms($criteria);
+    {    
+        return $this->findBy([]);
     }
 
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
