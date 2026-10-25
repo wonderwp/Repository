@@ -35,7 +35,7 @@ class PostRepository implements RepositoryInterface
      * @inheritDoc
      * @return \WP_Post[]
      */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
     {
 
         if (empty($criteria['post_type'])) {

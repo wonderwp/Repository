@@ -16,7 +16,7 @@ class TaxonomyRepository implements RepositoryInterface
         return $this->findBy([]);
     }
 
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
     {
         $criteria['taxonomy'] = static::TAXONOMY_NAME;
 

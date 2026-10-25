@@ -36,7 +36,7 @@ interface RepositoryInterface
      *
      * @throws \UnexpectedValueException
      */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null);
 
     /**
      * Finds a single object by a set of criteria.
