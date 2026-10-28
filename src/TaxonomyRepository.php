@@ -6,31 +6,59 @@ class TaxonomyRepository implements RepositoryInterface
 {
     const TAXONOMY_NAME = 'category';
 
-    public function find($id)
+    public function find(mixed $id): ?object
     {
-        return get_term($id, static::TAXONOMY_NAME);
+        $term = get_term($id, static::TAXONOMY_NAME);
+
+        if ($term instanceof \WP_Term) {
+            return $term;
+        }
+
+        // Preserve WP_Error for callers that inspect it; otherwise null.
+        return $term instanceof \WP_Error ? $term : null;
     }
 
-    public function findAll()
-    {    
+    public function findAll(): array
+    {
         return $this->findBy([]);
     }
 
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
     {
         $criteria['taxonomy'] = static::TAXONOMY_NAME;
 
-        return get_terms($criteria);
+        if ($limit !== null) {
+            $criteria['number'] = $limit;
+        }
+        if ($offset !== null) {
+            $criteria['offset'] = $offset;
+        }
+        if (!empty($orderBy)) {
+            // Same contract as PostRepository: ['field' => 'ASC|DESC', ...]
+            if (count($orderBy) === 1) {
+                $orderbyKeys = array_keys($orderBy);
+                $orderKeys = array_values($orderBy);
+                $criteria['orderby'] = reset($orderbyKeys);
+                $criteria['order'] = reset($orderKeys);
+            } else {
+                $criteria['orderby'] = $orderBy;
+            }
+        }
+
+        $terms = get_terms($criteria);
+
+        return is_array($terms) ? $terms : [];
     }
 
-    public function findOneBy(array $criteria)
+    public function findOneBy(array $criteria): ?object
     {
-        // TODO: Implement findOneBy() method.
+        $terms = $this->findBy($criteria, null, 1);
+
+        return $terms[0] ?? null;
     }
 
-    public function getClassName()
+    public function getClassName(): string
     {
         return \WP_Term::class;
     }
 }
-

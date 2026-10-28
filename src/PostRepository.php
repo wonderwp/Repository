@@ -10,18 +10,19 @@ class PostRepository implements RepositoryInterface
 
     /**
      * @inheritDoc
-     * @return \WP_Post
      */
-    public function find($id)
+    public function find(mixed $id): ?\WP_Post
     {
-        return get_post($id);
+        $post = get_post($id);
+
+        return $post instanceof \WP_Post ? $post : null;
     }
 
     /**
      * @inheritDoc
      * @return \WP_Post[]
      */
-    public function findAll()
+    public function findAll(): array
     {
         $criteria = [
             'numberposts' => -1,
@@ -35,7 +36,7 @@ class PostRepository implements RepositoryInterface
      * @inheritDoc
      * @return \WP_Post[]
      */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
     {
 
         if (empty($criteria['post_type'])) {
@@ -68,17 +69,18 @@ class PostRepository implements RepositoryInterface
 
     /**
      * @inheritDoc
-     * @return \WP_Post
      */
-    public function findOneBy(array $criteria)
+    public function findOneBy(array $criteria): ?\WP_Post
     {
-        // TODO: Implement findOneBy() method.
+        $posts = $this->findBy($criteria, null, 1);
+
+        return $posts[0] ?? null;
     }
 
     /**
      * @inheritDoc
      */
-    public function getClassName()
+    public function getClassName(): string
     {
         return \WP_Post::class;
     }
@@ -90,13 +92,13 @@ class PostRepository implements RepositoryInterface
      *
      * @return integer
      */
-    public function countBy(array $criteria)
+    public function countBy(array $criteria): int
     {
         // TODO - Optimize
         return count($this->findBy($criteria));
     }
 
-    public function getTermsForTaxonomy(array $args = [])
+    public function getTermsForTaxonomy(array $args = []): array|\WP_Error
     {
         return get_terms($args);
     }
@@ -110,7 +112,7 @@ class PostRepository implements RepositoryInterface
      *
      * @return \WP_Post[]
      */
-    public function findRandomRelated(\WP_Post $currentPost, $taxonomyName, $args = [])
+    public function findRandomRelated(\WP_Post $currentPost, string $taxonomyName, array $args = []): array
     {
         $defaultCriteria = [
             "post_type"   => static::POST_TYPE,
