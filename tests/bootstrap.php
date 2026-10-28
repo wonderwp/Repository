@@ -38,3 +38,9 @@ spl_autoload_register(static function (string $class): void {
 $GLOBALS['wwp_test_get_terms_calls'] = [];
 $GLOBALS['wwp_test_get_terms_return'] = [];
 $GLOBALS['wwp_test_get_term_return'] = null;
+$GLOBALS['wwp_test_get_posts_calls'] = [];
+$GLOBALS['wwp_test_get_posts_return'] = [];
+$GLOBALS['wwp_test_get_post_return'] = null;
+$GLOBALS['wwp_test_get_users_calls'] = [];
+$GLOBALS['wwp_test_get_users_return'] = [];
+$GLOBALS['wwp_test_get_user_by_return'] = false;

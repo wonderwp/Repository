@@ -15,7 +15,7 @@ composer install
 composer test
 ```
 
-Unit tests spy WordPress functions (`get_terms`, `get_term`). No database required.
+Unit tests spy WordPress functions (`get_terms`, `get_posts`, `get_users`, …). No database required.
 
 ### Integration (real WordPress — any host project)
 
@@ -23,9 +23,12 @@ Requires a running WordPress where `wonderwp/repository` is installed via Compos
 
 ```bash
 wp eval-file vendor/wonderwp/repository/tests/Integration/smoke-taxonomy.php
+wp eval-file vendor/wonderwp/repository/tests/Integration/smoke-posts.php
 
 # DDEV example:
 ddev wp eval-file vendor/wonderwp/repository/tests/Integration/smoke-taxonomy.php
+ddev wp eval-file vendor/wonderwp/repository/tests/Integration/smoke-posts.php
 ```
 
-Exercises `TaxonomyRepository` against the built-in `category` taxonomy (and optionally host subclasses such as Actu `news_category` when present).
+- `smoke-taxonomy.php` — `TaxonomyRepository` vs built-in `category` (and host subclasses when present).
+- `smoke-posts.php` — `PostRepository` vs published `post` fixtures.
