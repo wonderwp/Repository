@@ -34,7 +34,15 @@ class TaxonomyRepository implements RepositoryInterface
             $criteria['offset'] = $offset;
         }
         if (!empty($orderBy)) {
-            $criteria = array_merge($criteria, $orderBy);
+            // Same contract as PostRepository: ['field' => 'ASC|DESC', ...]
+            if (count($orderBy) === 1) {
+                $orderbyKeys = array_keys($orderBy);
+                $orderKeys = array_values($orderBy);
+                $criteria['orderby'] = reset($orderbyKeys);
+                $criteria['order'] = reset($orderKeys);
+            } else {
+                $criteria['orderby'] = $orderBy;
+            }
         }
 
         $terms = get_terms($criteria);
