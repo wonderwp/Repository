@@ -27,7 +27,7 @@ class UserRepository implements RepositoryInterface
      * @inheritDoc
      * @return \WP_User[]
      */
-    public function findBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array
     {
         $args = $criteria;
 
